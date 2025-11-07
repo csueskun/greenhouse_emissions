@@ -26,3 +26,6 @@ To test the web application, use:
 ```bash
 docker compose run --rm web_app npx jest
 ```
+
+## Version
+0.0.1-dev
