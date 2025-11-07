@@ -34,9 +34,6 @@ db.sqlite3
 # Static files
 /static
 
-# Local environment variables
-.env
-
 # IDEs and editors
 .vscode/
 .idea/
