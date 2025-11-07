@@ -1,0 +1,37 @@
+services:
+  web_app:
+    build:
+      context: ./web_app
+    working_dir: /app
+    volumes:
+      - ./web_app/app:/app
+    command: bash -c "npm install && npm run start"
+    ports:
+      - "4200:4200"
+    depends_on:
+      - api
+
+  api:
+    build:
+      context: ./api
+    working_dir: /app
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./api/app:/app
+      - sqlite_data:/data
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./api/app/.env
+
+  sqlite_client:
+    image: ghcr.io/coleifer/sqlite-web:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - sqlite_data:/data
+    environment:
+      - SQLITE_DATABASE=db.sqlite3
+
+volumes:
+  sqlite_data:
