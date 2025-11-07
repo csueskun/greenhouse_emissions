@@ -1,0 +1,50 @@
+name: Test Greenhouse Project
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker Compose images
+        run: docker compose build
+
+      - name: Seed Django emissions data
+        run: docker compose run --rm api python manage.py seed_emissions
+
+      - name: Run Django tests
+        run: docker compose run --rm api python manage.py test greenhouse
+
+      - name: Start API in background
+        run: docker compose up -d api
+
+      - name: Wait for API to be ready
+        run: |
+          echo "Waiting for API to be available at http://localhost:8000/api/emissions/"
+          for i in {1..30}; do
+            if curl -s http://localhost:8000/api/emissions/ >/dev/null; then
+              echo "API is up!"
+              break
+            fi
+            echo "API not ready yet, retrying..."
+            sleep 2
+          done
+
+      - name: Run Angular tests
+        run: docker compose run --rm web_app npx jest
+
+      - name: Stop API
+        run: docker compose down
