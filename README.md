@@ -16,6 +16,8 @@ To seed the database with initial data, run the following command:
 docker compose run --rm api python manage.py seed_emissions
 ```
 
+The default API URL is [http://localhost:8000](http://localhost:8000), and the web application is accessible at [http://localhost:4200](http://localhost:4200).
+
 ### Running Tests
 To test the API, use:
 ```bash
