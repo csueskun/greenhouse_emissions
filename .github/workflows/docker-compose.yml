@@ -46,7 +46,10 @@ jobs:
             sleep 2
           done
 
-      - name: Run Angular tests
+      - name: Install Angular dependencies
+        run: docker compose run --rm web_app npm ci
+
+      - name: Run Jest tests
         run: docker compose run --rm web_app npx jest
 
       - name: Stop API
