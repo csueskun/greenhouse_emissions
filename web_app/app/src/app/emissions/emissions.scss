@@ -1,0 +1,123 @@
+.emissions-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        label {
+            display: flex;
+            flex-direction: column;
+            font-weight: bold;
+
+            input,
+            select {
+                padding: 6px 8px;
+                font-size: 14px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+        }
+
+        button {
+            align-self: flex-start;
+            padding: 6px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+            background-color: #1976d2;
+            color: white;
+            border-radius: 4px;
+            transition: background 0.2s;
+
+            &:hover {
+                background-color: #1565c0;
+            }
+        }
+    }
+
+    table.emissions-table {
+        margin: auto;
+        border-collapse: collapse;
+        max-height: 400px;
+        /* scrollable container for many items */
+        overflow-y: auto;
+        display: block;
+        /* enables scrolling */
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+
+        thead {
+            background-color: #f5f5f5;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+
+            th {
+                padding: 6px 10px;
+                text-align: left;
+                font-weight: bold;
+                border-bottom: 1px solid #e0e0e0;
+            }
+        }
+
+        tbody {
+            tr {
+                transition: background 0.2s;
+
+                &:hover {
+                    background-color: #f5f5f5;
+                }
+
+                td {
+                    padding: 6px 10px;
+                    border-bottom: 1px solid #e0e0e0;
+                }
+            }
+        }
+    }
+
+    .loading,
+    .error {
+        font-weight: bold;
+        padding: 5px 0;
+    }
+
+    @media (min-width: 768px) {
+        form {
+            flex-direction: row;
+            gap: 15px;
+            flex-wrap: wrap;
+
+            label {
+                flex: 1 1 200px;
+            }
+
+            button {
+                flex: 0 0 auto;
+                align-self: center;
+                margin-top: 22px;
+            }
+        }
+    }
+
+    .chart-container {
+        width: 100%;
+        max-width: 900px;
+        /* Adjust as needed */
+        margin: 2rem auto;
+        display: flex;
+        justify-content: center;
+    }
+
+    ngx-charts-line-chart {
+        width: 100% !important;
+        height: auto;
+    }
+}

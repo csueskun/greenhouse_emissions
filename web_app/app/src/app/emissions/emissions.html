@@ -1,0 +1,64 @@
+<div class="emissions-container">
+  <div *ngIf="loading">Loading data...</div>
+  <div *ngIf="error">{{ error }}</div>
+
+  <form [formGroup]="filterForm" (ngSubmit)="applyFilter()">
+    <label>
+      Country:
+      <select formControlName="country" (change)="applyFilter()">
+        <option value="">All</option>
+        <option *ngFor="let c of countries" [value]="c">{{ c }}</option>
+      </select>
+    </label>
+
+    <label>
+      Activity:
+      <select formControlName="activity" (change)="applyFilter()">
+        <option value="">All</option>
+        <option *ngFor="let a of activities" [value]="a">{{ a }}</option>
+      </select>
+    </label>
+
+    <label>
+      Emission Type:
+      <select formControlName="emission_type__name" (change)="applyFilter()">
+        <option value="">All</option>
+        <option *ngFor="let e of emissionTypes" [value]="e">{{ e }}</option>
+      </select>
+    </label>
+
+    <button type="submit">Filter</button>
+  </form>
+
+  <div class="chart-container">
+    <ngx-charts-line-chart *ngIf="chartData.length > 0" [view]="[800, 500]" [scheme]="colorScheme" [results]="chartData"
+      [xAxis]="true" [yAxis]="true" [legend]="true" [showXAxisLabel]="true" [showYAxisLabel]="true"
+      [xAxisLabel]="'Year'" [yAxisLabel]="'Emissions'" [autoScale]="true" [legendPosition]="legendPosition">
+    </ngx-charts-line-chart>
+  </div>
+
+  <hr>
+
+  <div *ngIf="emissions.length === 0">No data found.</div>
+
+  <table *ngIf="emissions.length > 0" class="emissions-table">
+    <thead>
+      <tr>
+        <th>Year</th>
+        <th>Country</th>
+        <th>Emissions</th>
+        <th>Emission Type</th>
+        <th>Activity</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of emissions">
+        <td>{{ item.year }}</td>
+        <td>{{ item.country }}</td>
+        <td>{{ item.emissions }}</td>
+        <td>{{ item.emission_type.name }}</td>
+        <td>{{ item.activity }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
